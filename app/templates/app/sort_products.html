@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Каталог товаров{% if category %} — {{ category.name }}{% endif %}
-{% endblock %}
+{% block title %}Сортировка товаров{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -31,14 +29,12 @@
     <div class="col-md-9">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h2 class="mb-0">Товары{% if category %} в категории «{{ category.name }}»{% endif %}</h2>
-                {% if category %}
-                    <p class="text-muted">Показаны товары из выбранной категории.</p>
-                {% endif %}
+                <h2 class="mb-0">Сортировка по цене</h2>
+                <p class="text-muted">Текущий порядок: {{ current_order|upper }}</p>
             </div>
             <div>
-                <a href="{{ request.path }}?order=asc" class="btn btn-outline-secondary {% if current_order == 'asc' %}active{% endif %}">По цене ↑</a>
-                <a href="{{ request.path }}?order=desc" class="btn btn-outline-secondary {% if current_order == 'desc' %}active{% endif %}">По цене ↓</a>
+                <a href="{% url 'app:price_sort' %}?order=asc" class="btn btn-outline-primary {% if current_order == 'asc' %}active{% endif %}">По возрастанию</a>
+                <a href="{% url 'app:price_sort' %}?order=desc" class="btn btn-outline-primary {% if current_order == 'desc' %}active{% endif %}">По убыванию</a>
             </div>
         </div>
 

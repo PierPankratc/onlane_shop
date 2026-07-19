@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h1>{{ product.name }}</h1>
+                <p class="text-muted mb-2">Категория: <a href="{% url 'app:product_list_by_category' product.category.slug %}">{{ product.category.name }}</a></p>
+                <p class="price">{{ product.price }} ₽</p>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="text-muted">Добавлен: {{ product.created_at|date:"d.m.Y" }}</p>
+                <a href="{% url 'app:product_list' %}" class="btn btn-outline-secondary">Вернуться к каталогу</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Похожие товары</h5>
+                <div class="list-group list-group-flush">
+                    {% for related in related_products %}
+                    <a href="{% url 'app:product_details' related.id related.slug %}" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
+                        {% if related.image %}
+                        <img src="{{ related.image.url }}" alt="{{ related.name }}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% else %}
+                        <img src="https://via.placeholder.com/60x60?text=No" alt="Нет изображения" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% endif %}
+                        <div>
+                            <div class="fw-semibold">{{ related.name }}</div>
+                            <div class="small text-muted">{{ related.price }} ₽</div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="list-group-item">Похожих товаров нет.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
