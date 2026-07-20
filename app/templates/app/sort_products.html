@@ -29,12 +29,18 @@
     <div class="col-md-9">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h2 class="mb-0">Сортировка по цене</h2>
+                <h2 class="mb-0">{{ sort_title|default:'Сортировка товаров' }}</h2>
                 <p class="text-muted">Текущий порядок: {{ current_order|upper }}</p>
             </div>
-            <div>
-                <a href="{% url 'app:price_sort' %}?order=asc" class="btn btn-outline-primary {% if current_order == 'asc' %}active{% endif %}">По возрастанию</a>
-                <a href="{% url 'app:price_sort' %}?order=desc" class="btn btn-outline-primary {% if current_order == 'desc' %}active{% endif %}">По убыванию</a>
+            <div class="d-flex gap-2">
+                <div class="btn-group" role="group" aria-label="Тип сортировки">
+                    <a href="{% url 'app:price_sort' %}?order=asc" class="btn btn-outline-secondary {% if sort_url == 'app:price_sort' %}active{% endif %}">По цене</a>
+                    <a href="{% url 'app:name_sort' %}?order=asc" class="btn btn-outline-secondary {% if sort_url == 'app:name_sort' %}active{% endif %}">По имени</a>
+                </div>
+                <div>
+                    <a href="{% url sort_url %}?order=asc" class="btn btn-outline-primary {% if current_order == 'asc' %}active{% endif %}">По возрастанию</a>
+                    <a href="{% url sort_url %}?order=desc" class="btn btn-outline-primary {% if current_order == 'desc' %}active{% endif %}">По убыванию</a>
+                </div>
             </div>
         </div>
 

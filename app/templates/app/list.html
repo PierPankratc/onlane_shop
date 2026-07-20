@@ -36,9 +36,10 @@
                     <p class="text-muted">Показаны товары из выбранной категории.</p>
                 {% endif %}
             </div>
-            <div>
+            <div class="d-flex flex-wrap gap-2">
                 <a href="{{ request.path }}?order=asc" class="btn btn-outline-secondary {% if current_order == 'asc' %}active{% endif %}">По цене ↑</a>
                 <a href="{{ request.path }}?order=desc" class="btn btn-outline-secondary {% if current_order == 'desc' %}active{% endif %}">По цене ↓</a>
+                <a href="{% url 'app:name_sort' %}?order=asc" class="btn btn-outline-secondary">По имени</a>
             </div>
         </div>
 

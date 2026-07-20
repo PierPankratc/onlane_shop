@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models.functions import Lower
 from .models import Category, Product
 
 # Create your views here.
@@ -52,6 +53,28 @@ def price_sort(request):
                   'app/sort_products.html',
                   {'products': products,
                    'categories': categories,
-                   'current_order': order})
+                   'current_order': order,
+                   'sort_title': 'Сортировка по цене',
+                   'sort_url': 'app:price_sort'})
+
+def name_sort(request):
+    categories = Category.objects.all()
+    order = request.GET.get('order', 'asc')
+    products = Product.objects.filter(available=True)
+
+    if order == 'desc':
+        products = products.order_by(Lower('name').desc())
+    else:
+        order = 'asc'
+        products = products.order_by(Lower('name'))
+
+    return render(request,
+                  'app/sort_products.html',
+                  {'products': products,
+                   'categories': categories,
+                   'current_order': order,
+                   'sort_title': 'Сортировка по имени',
+                   'sort_url': 'app:name_sort'})
+
 
 
